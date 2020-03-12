@@ -29,17 +29,22 @@ READ_TIMEOUT = 9999
 RETRIES = 3
 WAIT_DELAY = 3
 
-DATABASES_ENGINE = os.getenv('DATABASES_ENGINE') or 'mloyalty.db.backends.tinydb.MloyaltyTinyDB'
-
 
 class Mloyalty:
     """
     Базовый класс для работы с API Mloyalty.
     """
-    def __init__(self, username=None, password=None, base_url=None):
-        self.username = username or os.getenv('USERNAME')
-        self.password = password or os.getenv('PASSWORD')
-        self.base_url = base_url or os.getenv('BASE_URL')
+    def __init__(self, username=None, password=None, base_url=None, db_backend=None):
+        self.username = username or os.getenv('MLOYALTY_USERNAME')
+        self.password = password or os.getenv('MLOYALTY_PASSWORD')
+        self.base_url = base_url or os.getenv('MLOYALTY_BASE_URL')
+
+        if db_backend:
+            self.db_backend = db_backend
+        elif os.getenv('MLOYALTY_DB_BACKEND'):
+            self.db_backend = os.getenv('MLOYALTY_DB_BACKEND')
+        else:
+            self.db_backend = 'mloyalty.db.backends.tinydb.MloyaltyTinyDB'
 
     def get_access_token(self):
         """
@@ -81,9 +86,8 @@ class Mloyalty:
 
         return self._save_data(method_url, result)
 
-    @staticmethod
-    def get_connection():
-        klass = import_string(DATABASES_ENGINE)
+    def get_connection(self):
+        klass = import_string(self.db_backend)
         return klass()
 
     def _save_data(self, method_url, result):
