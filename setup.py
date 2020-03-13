@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='mloyalty',
-    version='0.2.2',
+    version='0.2.3',
     packages=find_packages(),
     url='https://github.com/igorexa256/mloyalty',
     license='MIT',
