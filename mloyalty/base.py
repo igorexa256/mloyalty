@@ -104,7 +104,7 @@ class Mloyalty:
     def get_request_params(self):
         """
         Получение параметров для запроса.
-        :return: словарь с параметрами: token, operator_id, partner_id, pos_code
+        :return: словарь с параметрами: token, operator_id, partner_id, pos_id, pos_code
         """
         db = self.get_connection()
         data = db.get()
@@ -129,6 +129,7 @@ class Mloyalty:
             'token': token,
             'operator_id': params['oper'],
             'partner_id': params['partner'],
+            'pos_id': params['pos'],
             'pos_code': params['poscode'],
         }
 
