@@ -2,8 +2,8 @@ from mloyalty.base import Mloyalty
 
 
 class Cheque(Mloyalty):
-    def __init__(self, username=None, password=None, base_url=None):
-        super().__init__(username, password, base_url)
+    def __init__(self, username=None, password=None, base_url=None, db_backend=None):
+        super().__init__(username, password, base_url, db_backend)
 
     def get_cheques(self, loyalty_client_id, page, size):
         """
